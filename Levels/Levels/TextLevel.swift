@@ -1,5 +1,5 @@
 //
-//  TextLevel.swift
+//  TextLevelView.swift
 //  Levels
 //
 //  Created by Nicolas Märki on 13.07.23.

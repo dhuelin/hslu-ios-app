@@ -11,5 +11,6 @@ class LevelProvider {
         TextLevel(),
         ToggleLevel(),
         HangmanLevel(),
+        TicTacToeLevel()
     ]
 }
