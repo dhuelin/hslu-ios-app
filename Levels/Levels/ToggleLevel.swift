@@ -1,5 +1,5 @@
 //
-//  ToggleLevel.swift
+//  Level2View.swift
 //  Levels
 //
 //  Created by Nicolas Märki on 13.07.23.
@@ -15,8 +15,6 @@ struct ToggleLevel: Level {
     let description: String = "Da gehts jetzt nur mit Logik weiter."
     let titleImage: Image = Image(ImageResource.levelImage3)
 
-    @Environment(\.dismiss) private var dismiss
-
     @State private var toggle1 = false
     @State private var toggle2 = false
     @State private var toggle3 = false
@@ -25,6 +23,8 @@ struct ToggleLevel: Level {
     @State private var toggle6 = false
     @State private var toggle7 = false
     @State private var toggle8 = false
+    
+    @EnvironmentObject var levelState: LevelState
 
     var sum: Int {
         (toggle1 ? 1 : 0) + 2 * (toggle2 ? 1 : 0) + 4 * (toggle3 ? 1 : 0) + 8 * (toggle4 ? 1 : 0) + 16 * (toggle5 ? 1 : 0) + 32 * (toggle6 ? 1 : 0) + 64 * (toggle7 ? 1 : 0) + 128 * (toggle8 ? 1 : 0)
@@ -41,9 +41,11 @@ struct ToggleLevel: Level {
                 }
                 else if sum == 42 {
                     Text("Richtig")
+                    levelState.finish(successful: true)
                 }
                 else {
                     Text("Nahe dran")
+                    levelState.finish(successful: false)
                 }
             }
             Toggle(isOn: $toggle1, label: {
@@ -71,11 +73,6 @@ struct ToggleLevel: Level {
                 Text("Schalter 8")
             })
         }
-        .toolbar {
-            Button("Abbrechen") {
-                dismiss()
-            }
-        }
     }
 }
 
@@ -84,11 +81,6 @@ struct ToggleLevel: Level {
 #Preview {
     NavigationView(content: {
         ToggleLevel()
-            .toolbar {
-                Button("Abbrechen") {
-
-                }
-
-            }
+            .environmentObject(LevelState())
     })
 }

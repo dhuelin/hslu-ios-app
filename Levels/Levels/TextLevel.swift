@@ -1,5 +1,5 @@
 //
-//  TextLevel.swift
+//  TextLevelView.swift
 //  Levels
 //
 //  Created by Nicolas Märki on 13.07.23.
@@ -15,8 +15,9 @@ struct TextLevel: Level {
     let description: String = "Besonders schwieriges Rätsel, dass viel Wissen, Erfindergeist und Geduld verlangt."
     let titleImage: Image = Image(ImageResource.levelImage2)
 
-    @Environment(\.dismiss) private var dismiss
-
+    
+    @EnvironmentObject var levelState: LevelState
+    
     @State var answer: String = ""
     var body: some View {
         List {
@@ -26,14 +27,11 @@ struct TextLevel: Level {
 
             if answer == "Karte" {
                 Text("Korrekt")
+                levelState.finish(successful: true) 
             }
             else if !answer.isEmpty {
                 Text("Falsch")
-            }
-        }
-        .toolbar {
-            Button("Abbrechen") {
-                dismiss()
+                levelState.finish(successful: false)
             }
         }
     }
@@ -42,5 +40,6 @@ struct TextLevel: Level {
 #Preview {
     NavigationView {
         TextLevel()
+            .environmentObject(LevelState())
     }
 }
